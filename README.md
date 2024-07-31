@@ -9,6 +9,7 @@
 NEWS:🔥3D-GRES is accepted at ACM MM 2024 (Oral)!🔥
 
 Changli Wu, Yihang Liu, Jiayi Ji, Yiwei Ma, Haowei Wang, Gen Luo, Henghui Ding, Xiaoshuai Sun, Rongrong Ji
+<img src="docs\3d-gres.png"/>
 
 <img src="docs\mdin.png"/>
 
