@@ -140,21 +140,21 @@ Download pretrain models and move it to checkpoints.
 
 
 ## Training
-For GRES:
+For 3D-GRES:
 ```
 bash scripts/train_3dgres.sh
 ```
-For RES:
+For 3D-RES:
 ```
 bash scripts/train_3dres.sh
 ```
 
 ## Inference
-For GRES:
+For 3D-GRES:
 ```
 bash scripts/test_3dgres.sh
 ```
-For RES:
+For 3D-RES:
 ```
 bash scripts/test_3dres.sh
 ```
