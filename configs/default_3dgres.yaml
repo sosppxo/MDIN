@@ -1,0 +1,153 @@
+train:
+  seed: 1999
+  epochs: 70
+  interval: 1
+  # pretrain: backbones/spf_unet_query_backbone.pth
+  pretrain: backbones/sp_unet_backbone.pth
+  # pretrain: exps/default_m3drefer/20240103_202016/best.pth
+  # pretrain: checkpoints/stmn.pth
+  save_epoch: 100
+  grad_clip: 0.1
+
+test:
+  seed: 1999
+  test_topk_per_scene: 100
+  test_score_thresh: 0.0
+  test_npoint_thresh: 100
+
+dataloader:
+  train:
+    batch_size: 2
+    num_workers: 8
+    persistent_workers: True
+  val:
+    batch_size: 1
+    num_workers: 4
+    persistent_workers: True
+  test:
+    batch_size: 1
+    num_workers: 2
+    persistent_workers: True
+
+data:
+  train:
+    type: scannetv2_sample_graph_edge
+    dataset: multi3drefer
+    data_root: data/
+    prefix: train
+    suffix: .pth
+    training: True
+    mode: 4
+    aug: True
+    with_elastic: True
+    use_xyz: True
+    voxel_cfg:
+      scale: 50
+      spatial_shape: [128, 512]
+      max_npoint: 250000
+    graph_pos_enc_dim: 2
+    max_des_len: 78
+    lang_num_max: 8
+  val:
+    type: scannetv2_sample_graph_edge
+    dataset: multi3drefer
+    data_root: data/
+    prefix: val
+    suffix: .pth
+    training: False
+    mode: 4
+    aug: False
+    with_elastic: False
+    use_xyz: True
+    voxel_cfg:
+      scale: 50
+      spatial_shape: [128, 512]
+      max_npoint: 250000
+    graph_pos_enc_dim: 2
+    max_des_len: 78
+    lang_num_max: 64
+
+model:
+  input_channel: 6
+  blocks: 5
+  block_reps: 2
+  media: 32
+  normalize_before: True
+  return_blocks: True
+  pool: mean
+  infer_mode: sem
+  fps_num: 256
+  sampling_module:
+    num_proposal: 128
+    pc_dim: 256
+    lang_dim: 256
+    d_model: 256
+  # sampling_module_kv:
+  #   num_proposal: 512
+  #   pc_dim: 256
+  #   lang_dim: 256
+  #   d_model: 256
+  mdin: 
+    num_layer: 6
+    d_model: 256
+    nhead: 8
+    hidden_dim: 1024
+    dropout: 0.0
+    activation_fn: gelu
+    iter_pred: True
+    attn_mask: True
+    # kernel: top1
+    kernel: w_sum
+    global_feat: mean
+    # pred_0: False
+    lang_att: True
+    contrastive_align_loss: True
+  criterion:
+    loss_weight: [1.0, 1.0, 1.0, 5.0, 0.1, 0.1]
+    cost_weight: [1.0, 1.0, 0.1]
+    # one_mask: True
+    loss_fun: focal
+    match_last_layer: True
+    layer_differ_weight: True
+    pos_loss: False
+  test_cfg:
+    topk_insts: 100
+    score_thr: 0.0
+    npoint_thr: 100
+  norm_eval: False
+  fix_module: [
+              'bert_encoder',
+              'input_conv',
+              'unet',
+              'output_layer'
+              ]
+  task_type: gres
+
+optimizer:
+  type: AdamW
+  lr: 0.0001
+  weight_decay: 0.0005
+  paramwise_cfg:
+   bert_encoder:
+     lr_mult: 0.001
+   input_conv:
+     lr_mult: 0.01
+   unet:
+     lr_mult: 0.01
+   output_layer:
+     lr_mult: 0.01
+   mdin:
+     lr_mult: 1.0
+
+# lr_scheduler:
+#   type: MultiStepLR
+#   # milestones: [26, 34, 46]
+#   milestones: [3, 6, 9, 12, 20, 30]
+#   gamma: 0.5
+
+lr_scheduler:
+  type: PolyLR
+  max_iters: 70
+  # max_iters: 512
+  power: 4.0
+  constant_ending: 0.0

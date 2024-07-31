@@ -1,0 +1,4 @@
+# ninja log v5
+0	22745	1698946274296679013	/home/jijiayi/3D_data/wcl/3D-STMN-rebuttal/stmn/lib/build/temp.linux-x86_64-cpython-38/pointgroup_ops/src/pointgroup_ops.o	2976bb0749eb8ffe
+1	28886	1698946280432780881	/home/jijiayi/3D_data/wcl/3D-STMN-rebuttal/stmn/lib/build/temp.linux-x86_64-cpython-38/pointgroup_ops/src/pointgroup_ops_api.o	f5a0b0d8752e0272
+0	33112	1698946284676851342	/home/jijiayi/3D_data/wcl/3D-STMN-rebuttal/stmn/lib/build/temp.linux-x86_64-cpython-38/pointgroup_ops/src/cuda.o	d17871c433309d98
