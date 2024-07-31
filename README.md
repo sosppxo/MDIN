@@ -6,7 +6,7 @@
 **[📄[PDF]](https://arxiv.org/pdf/2407.20664)** &emsp;
 
 
-NEWS:🔥3D-GRES is accepted at ACM MM 2024!🔥
+NEWS:🔥3D-GRES is accepted at ACM MM 2024 (Oral)!🔥
 
 Changli Wu, Yihang Liu, ...
 <img src="docs\mdin.png"/>
