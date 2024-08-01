@@ -1,4 +1,3 @@
-# 整理后的代码,任务通用型
 import glob, json, os
 import math
 import numpy as np
