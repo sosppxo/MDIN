@@ -44,19 +44,6 @@ def _print_results_acc(iou_25, iou_50, mious, logger):
         line_3_str += '{:<12.1f}'.format(score * 100)
     logger.info(line_3_str)
     logger.info(f"{'=' * 100}\n")
-    # print(f"{'=' * 100}")
-    # print("{0:<12}{1:<12}{2:<12}{3:<12}{4:<12}{5:<12}{6:<12}"
-    #           .format("IoU", "zt_w_d", "zt_wo_d", "st_w_d", "st_wo_d", "mt", "overall"))
-    # print(f"{'-' * 100}")
-    # line_1_str = '{:<12}'.format("0.25")
-    # for sub_group_type, score in iou_25.items():
-    #     line_1_str += '{:<12.1f}'.format(score * 100)
-    # print(line_1_str)
-    # line_2_str = '{:<12}'.format("0.50")
-    # for sub_group_type, score in iou_50.items():
-    #     line_2_str += '{:<12.1f}'.format(score * 100)
-    # print(line_2_str)
-    # print(f"{'=' * 100}\n")
 
 def decode_stimulus_string(s):
     """
@@ -141,27 +128,14 @@ def main():
             
         progress_bar.close()
 
-    
-    iou_out = {}
     eval_dict = {"zt_w_d": 0, "zt_wo_d": 1, "st_w_d": 2, "st_wo_d": 3, "mt": 4}
     eval_type_mask = np.empty(len(scan_ids))
     for idx, scan_id in enumerate(scan_ids):
         ann_id = int(ann_ids[idx])
         eval_type = meta_datas[idx]['eval_type']
         eval_type_mask[idx] = eval_dict[eval_type]
-        
-        if scan_id not in iou_out:
-            iou_out[scan_id] = {}
-        if ann_id not in iou_out[scan_id]:
-            iou_out[scan_id][ann_id] = {}
-        
-        iou_out[scan_id][ann_id]["eval_type"] = eval_type
-        iou_out[scan_id][ann_id]["object"] = object_ids[idx]
-        iou_out[scan_id][ann_id]["pred_nt"] = float(nt_labels[idx])
-        
-        # 如果被预测为 nt，iou = 0
+                
         if nt_labels[idx]:
-            iou_out[scan_id][ann_id]["ori_iou"] = float(pious[idx].cpu().numpy())
             pious[idx] = torch.tensor(0.0)
         
         if eval_type in ("zt_wo_d", "zt_w_d"):
@@ -169,15 +143,6 @@ def main():
                 pious[idx] = torch.tensor(1.0)
             else:
                 pious[idx] = torch.tensor(0.0)
-        
-        iou_out[scan_id][ann_id]["iou"] = float(pious[idx].cpu().numpy())
-    
-    iou_path = args.checkpoint.replace('.pth', '_outdict.json')
-    
-    save_inform = 0
-    if save_inform == 1:
-        with open(iou_path, "w") as json_file:
-            json.dump(iou_out, json_file, indent=2)    
 
        
     pious = torch.stack(pious, dim=0).cpu().numpy()     
@@ -190,19 +155,6 @@ def main():
         meam_ious[sub_group] = selected.mean()
         acc_half_results[sub_group] = (selected > 0.5).sum().astype(float) / selected.size
         acc_quarter_results[sub_group] = (selected > 0.25).sum().astype(float) / selected.size
-
-
-        # if len(meta_datas)>0:
-        #     pass
-            # if hardness[idx] > 2:
-            #     ious_hard.append(piou.item())
-            # else:
-            #     ious_easy.append(piou.item())
-            
-            # if view_dependents[idx]:
-            #     ious_vd.append(piou.item())
-            # else:
-            #     ious_vind.append(piou.item())
     
     
     precision_half = (pious > 0.5).sum().astype(float) / pious.size
@@ -220,64 +172,6 @@ def main():
     logger.info('============================= Points =============================')
     logger.info(f'Point mIoU : {pmiou}')
     _print_results_acc(acc_quarter_results, acc_half_results, meam_ious, logger)
-    #     iou_dict[scan_id+'_'+str(object_id).zfill(3)+'_'+str(ann_id).zfill(3)] = piou.item()
-    # iou_path = os.path.join(os.path.dirname(args.checkpoint), 'ious.json')
-    # # write to json
-    # with open(iou_path, 'w') as f:
-    #     json.dump(iou_dict, f)
-    
-    # logger.info('Evaluate referring segmentation')
-    # # point-level metrics
-    # pious = torch.stack(pious, axis=0).cpu().numpy()
-    # # superpoint-level metrics
-    # spious = torch.stack(spious, axis=0).cpu().numpy()
-    # spprecision_half = (spious > 0.5).sum().astype(float) / spious.size
-    # spprecision_quarter = (spious > 0.25).sum().astype(float) / spious.size
-    # spmiou = spious.mean()
-    # logger.info('sp_Acc@25: {:.4f}. sp_Acc@50: {:.4f}. sp_mIOU: {:.4f}.'.format(spprecision_quarter, spprecision_half, spmiou))
-    
-    # print(pious.size)
-    
-    # if len(meta_datas)==0:
-    #     with open(os.path.join(cfg.data.val.data_root,"lookup.json"),'r') as load_f:
-    #         # unique为1, multi为0
-    #         unique_multi_lookup = json.load(load_f)
-    #     unique, multi = [], []
-    #     for idx, scan_id in enumerate(scan_ids):
-    #         if unique_multi_lookup[scan_id][str(object_ids[idx])][str(ann_ids[idx])] == 0:
-    #             unique.append(pious[idx])
-    #         else:
-    #             multi.append(pious[idx])
-    #     unique = np.array(unique)
-    #     multi = np.array(multi)
-    #     for u in [0.25, 0.5]:
-    #         logger.info(f'Acc@{u}: \tunique: '+str(round((unique>u).mean(), 4))+' \tmulti: '+str(round((multi>u).mean(), 4))+' \tall: '+str(round((pious>u).mean(), 4)))
-        # logger.info('mIoU:\t \tunique: '+str(round(unique.mean(), 4))+' \tmulti: '+str(round(multi.mean(), 4))+' \tall: '+str(round(pious.mean(), 4)))
-        
-    # if len(meta_datas)>0:
-    #     # vd and vid
-    #     vd_half = (np.array(ious_vd) > 0.5).sum().astype(float) / len(ious_vd)
-    #     vd_quarter = (np.array(ious_vd) > 0.25).sum().astype(float) / len(ious_vd)
-    #     vd_miou = np.array(ious_vd).mean()
-    #     vid_half = (np.array(ious_vind) > 0.5).sum().astype(float) / len(ious_vind)
-    #     vid_quarter = (np.array(ious_vind) > 0.25).sum().astype(float) / len(ious_vind)
-    #     vid_miou = np.array(ious_vind).mean()
-    #     logger.info('vd_Acc@25: {:.4f}. vd_Acc@50: {:.4f}. vd_mIOU: {:.4f}.'.format(vd_quarter, vd_half, vd_miou))
-    #     logger.info('vid_Acc@25: {:.4f}. vid_Acc@50: {:.4f}. vid_mIOU: {:.4f}.'.format(vid_quarter, vid_half, vid_miou))
-    #     # easy and hard
-    #     easy_half = (np.array(ious_easy) > 0.5).sum().astype(float) / len(ious_easy)
-    #     easy_quarter = (np.array(ious_easy) > 0.25).sum().astype(float) / len(ious_easy)
-    #     easy_miou = np.array(ious_easy).mean()
-    #     hard_half = (np.array(ious_hard) > 0.5).sum().astype(float) / len(ious_hard)
-    #     hard_quarter = (np.array(ious_hard) > 0.25).sum().astype(float) / len(ious_hard)
-    #     hard_miou = np.array(ious_hard).mean()
-    #     logger.info('easy_Acc@25: {:.4f}. easy_Acc@50: {:.4f}. easy_mIOU: {:.4f}.'.format(easy_quarter, easy_half, easy_miou))
-    #     logger.info('hard_Acc@25: {:.4f}. hard_Acc@50: {:.4f}. hard_mIOU: {:.4f}.'.format(hard_quarter, hard_half, hard_miou))
-    #     # overall
-    #     half = (pious > 0.5).sum().astype(float) / pious.size
-    #     quarter = (pious > 0.25).sum().astype(float) / pious.size
-    #     miou = pious.mean()
-    #     logger.info('Acc@25: {:.4f}. Acc@50: {:.4f}. mIOU: {:.4f}.'.format(quarter, half, miou))
         
     # save output
     if args.out is None:
