@@ -1,0 +1,15 @@
+__pycache__
+.vscode
+*.so
+build
+*.egg-info
+.flake8
+setup.cfg
+.pre-commit-config.yaml
+segmentator
+
+backbones
+checkpoints
+ScanRefer
+
+exps
