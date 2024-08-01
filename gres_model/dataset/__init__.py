@@ -24,7 +24,6 @@ def build_dataloader(dataset, batch_size=1, num_workers=1, training=True, dist=F
     if sampler is not None:
         shuffle = False
     if training:
-        # 读取预处理特征的话需要bs=64
         # if isinstance(dataset, ScanNetDataset_sp): assert batch_size == 64     
         return DataLoader(
             dataset,
