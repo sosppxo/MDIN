@@ -98,7 +98,7 @@ MDIN
 ### ScanRefer dataset
 Download [ScanRefer](https://github.com/daveredrum/ScanRefer) annotations following the instructions.
 
-In the original ScanRefer annotations, all `ann_id` within each scene were individually assigned based on the corresponding `object_id`, resulting in duplicate `ann_id`. We have modified the ScanRefer annotations, and the revised annotation data, where each `ann_id` within a scene is unique, can be accessed [here]().
+In the original ScanRefer annotations, all `ann_id` within each scene were individually assigned based on the corresponding `object_id`, resulting in duplicate `ann_id`. We have modified the ScanRefer annotations, and the revised annotation data, where each `ann_id` within a scene is unique, can be accessed [here](https://stuxmueducn-my.sharepoint.com/:f:/g/personal/liuyihang_stu_xmu_edu_cn/Euro_ViDA6JPiF05ayQqa_EB32qVgfhxc0c0-Oy5S7XjrA?e=0t4VlB).
 
 Put the downloaded `ScanRefer` folder as follows.
 ```
