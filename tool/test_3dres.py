@@ -149,7 +149,6 @@ def main():
         logger.info('Acc@25: {:.4f}. Acc@50: {:.4f}. mIOU: {:.4f}.'.format(quarter, half, miou))
     else:
         with open(os.path.join(cfg.data.val.data_root,"lookup.json"),'r') as load_f:
-            # unique为1, multi为0
             unique_multi_lookup = json.load(load_f)
         unique, multi = [], []
         for idx, scan_id in enumerate(scan_ids):
