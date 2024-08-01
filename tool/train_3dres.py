@@ -160,30 +160,8 @@ def eval(epoch, best_iou, model, dataloader, cfg, logger, writer, save_ckp=False
     if gorilla.is_main_process():
         progress_bar.close()
         logger.info('Evaluate referring segmentation: '+str(len(pious)))
-        # eval_dict = {"zt_w_d": 0, "zt_wo_d": 1, "st_w_d": 2, "st_wo_d": 3, "mt": 4}
-        # eval_type_mask = np.empty(len(scan_ids))
-        # for idx, scan_id in enumerate(scan_ids):
-        #     eval_type_mask[idx] = eval_dict[meta_datas[idx]['eval_type']]
-        #     if nt_labels[idx]:
-        #         pious[idx] = torch.tensor(0.0)
-        #     if meta_datas[idx]['eval_type'] in ("zt_wo_d", "zt_w_d"):
-        #         if nt_labels[idx]:
-        #             pious[idx] = torch.tensor(1.0)
-        #             spious[idx] = torch.tensor(1.0)
-        #         else:
-        #             pious[idx] = torch.tensor(0.0)
-        #             spious[idx] = torch.tensor(0.0)
                     
         pious = torch.stack(pious, dim=0).cpu().numpy()
-        # acc_half_results = {}
-        # acc_quarter_results = {}
-        # for sub_group in ("zt_w_d", "zt_wo_d", "st_w_d", "st_wo_d", "mt"):
-        #     selected_indices = eval_type_mask == eval_dict[sub_group]
-        #     selected = pious[selected_indices]      
-        #     acc_half_results[sub_group] = (selected > 0.5).sum().astype(float) / selected.size
-        #     acc_quarter_results[sub_group] = (selected > 0.25).sum().astype(float) / selected.size
-        #     writer.add_scalar('val/'+ sub_group + '_25', acc_quarter_results[sub_group], epoch)
-        #     writer.add_scalar('val/'+ sub_group + '_50', acc_half_results[sub_group], epoch)
         
         precision_half = (pious > 0.5).sum().astype(float) / pious.size
         precision_quarter = (pious > 0.25).sum().astype(float) / pious.size
