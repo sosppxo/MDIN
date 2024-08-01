@@ -91,7 +91,7 @@ def main():
     gorilla.load_checkpoint(model, args.checkpoint, strict=False)
 
     dataset = build_dataset(cfg.data.val, logger)
-    dataloader = build_dataloader(dataset, training=False, **cfg.dataloader.val)   # 改训练集or验证集
+    dataloader = build_dataloader(dataset, training=False, **cfg.dataloader.val) 
 
     scan_ids, object_ids, ann_ids, pious, spious, gt_pmasks, pred_pmasks = [], [], [], [], [], [], []
     meta_datas = []
