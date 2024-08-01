@@ -10,9 +10,9 @@ import numpy as np
 from tensorboardX import SummaryWriter
 from tqdm import tqdm
 
-from stmn.dataset import build_dataloader, build_dataset
-from stmn.model import MODEL
-from stmn.utils import AverageMeter, get_root_logger
+from gres_model.dataset import build_dataloader, build_dataset
+from gres_model.model import MODEL
+from gres_model.utils import AverageMeter, get_root_logger
 
 
 def _print_results_acc(iou_25, iou_50, logger):
