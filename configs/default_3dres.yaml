@@ -47,7 +47,6 @@ data:
       scale: 50
       spatial_shape: [128, 512]
       max_npoint: 250000
-    graph_pos_enc_dim: 2
     max_des_len: 78
     lang_num_max: 8
   val:
@@ -67,7 +66,6 @@ data:
       scale: 50
       spatial_shape: [128, 512]
       max_npoint: 250000
-    graph_pos_enc_dim: 2
     max_des_len: 78
     lang_num_max: 64
 
