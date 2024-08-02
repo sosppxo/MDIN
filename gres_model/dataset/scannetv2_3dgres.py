@@ -212,7 +212,7 @@ class ScanNetDataset_sample_graph_edge(Dataset):
 
 
     def get_sp_filenames(self):
-        filenames = glob.glob(osp.join(self.data_root, 'scannetv2', self.prefix, '*' + '_refer_l2.pth'))
+        filenames = glob.glob(osp.join(self.data_root, 'scannetv2', self.prefix, '*' + '_refer.pth'))
         assert len(filenames) > 0, 'Empty dataset.'
         filenames = sorted(filenames)
         return filenames
@@ -226,7 +226,7 @@ class ScanNetDataset_sample_graph_edge(Dataset):
             dummy_inst_label = np.zeros(xyz.shape[0], dtype=np.float32)
             return xyz, rgb, superpoint, dummy_sem_label, dummy_inst_label
         
-    def transform_train(self, xyz, rgb, superpoint, superpoint_l2, semantic_label, instance_label):
+    def transform_train(self, xyz, rgb, superpoint, semantic_label, instance_label):
         if self.aug:
             xyz_middle = self.data_aug(xyz, True, True, True)
         else:
@@ -249,7 +249,7 @@ class ScanNetDataset_sample_graph_edge(Dataset):
         instance_label = instance_label[valid_idxs]
         return xyz, xyz_middle, rgb, superpoint, semantic_label, instance_label
 
-    def transform_test(self, xyz, rgb, superpoint, superpoint_l2, semantic_label, instance_label):
+    def transform_test(self, xyz, rgb, superpoint, semantic_label, instance_label):
         xyz_middle = xyz
         xyz = xyz_middle * self.voxel_cfg.scale
         xyz -= xyz.min(0)
