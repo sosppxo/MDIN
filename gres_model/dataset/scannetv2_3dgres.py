@@ -36,12 +36,12 @@ class ScanNetDataset_sample_graph_edge(Dataset):
                  use_xyz=True,
                  logger=None,
                  max_des_len=78,
-                 graph_pos_enc_dim=5,
-                 bidirectional=False,
+                #  graph_pos_enc_dim=5,
+                #  bidirectional=False,
                  lang_num_max=16,
                  cl=False,
                  src_sample=-1,
-                 scene_graph=False,
+                #  scene_graph=False,
                  dataset='scanrefer'
                  ):
         self.data_root = data_root
@@ -57,11 +57,9 @@ class ScanNetDataset_sample_graph_edge(Dataset):
         self.use_xyz = use_xyz
         self.logger = logger
         self.max_des_len = max_des_len
-        self.bidirectional = bidirectional
-        self.scene_graph = scene_graph
-        self.depend2id = torch.load(os.path.join(self.data_root, 'dependency_map.pth'))['depend2id']
-        self.id2depend = torch.load(os.path.join(self.data_root, 'dependency_map.pth'))['id2depend']
-        self.graph_pos_enc_dim = graph_pos_enc_dim
+        # self.bidirectional = bidirectional
+        # self.scene_graph = scene_graph
+        # self.graph_pos_enc_dim = graph_pos_enc_dim
         self.sp_filenames = self.get_sp_filenames()
         self.cl = cl
         self.src_sample = src_sample
@@ -103,10 +101,10 @@ class ScanNetDataset_sample_graph_edge(Dataset):
         elif self.dataset == 'multi3drefer':
             # load multi3drefer
             if self.prefix == 'train':
-                self.scanrefer = json.load(open(os.path.join(self.data_root, 'M3DRefer', 'multi3drefer_train.json')))
+                self.scanrefer = json.load(open(os.path.join(self.data_root, 'Multi3DRefer', 'multi3drefer_train.json')))  ######
                 if is_main_process(): self.logger.info(f'Load {self.prefix} multi3drefer: {len(self.scanrefer)} samples')
             elif self.prefix == 'val':
-                self.scanrefer = json.load(open(os.path.join(self.data_root, 'M3DRefer', 'multi3drefer_val.json')))
+                self.scanrefer = json.load(open(os.path.join(self.data_root, 'Multi3DRefer', 'multi3drefer_val.json')))    ######
                 if is_main_process(): self.logger.info(f'Load {self.prefix} multi3drefer: {len(self.scanrefer)} samples')
         else:
             raise NotImplementedError
@@ -151,7 +149,7 @@ class ScanNetDataset_sample_graph_edge(Dataset):
         #     scene_graphs_path = os.path.join(self.data_root, self.dataset, 'scene_graphs_new_'+self.prefix+'.json')
         # else:
         #     scene_graphs_path = os.path.join(self.data_root, self.dataset, 'scene_graphs_'+self.prefix+'.json')
-        scene_graphs_path = os.path.join(self.data_root, self.dataset, 'scene_graphs_'+self.prefix+'.json')
+        scene_graphs_path = os.path.join(self.data_root, self.dataset, 'scene_graphs_'+self.prefix+'.json')   #######
         if os.path.exists(scene_graphs_path):
             scene_graphs = json.load(open(scene_graphs_path))
         else:
@@ -168,11 +166,11 @@ class ScanNetDataset_sample_graph_edge(Dataset):
                 if self.dataset == 'scanrefer':
                     scene_graphs[scene_id][ann_id] = Scene_graph_parse(' '.join(data['token']))
                 elif self.dataset == 'multi3drefer':
-                    scene_graphs[scene_id][ann_id] = Scene_graph_parse(data["description"])
+                    scene_graphs[scene_id][ann_id] = Scene_graph_parse(data["description"], scanrefer=False)
                 elif self.dataset == 'nr3d':
-                    scene_graphs[scene_id][ann_id] = Scene_graph_parse(' '.join(data['token']))
+                    scene_graphs[scene_id][ann_id] = Scene_graph_parse(' '.join(data['token']), scanrefer=False)
                 elif self.dataset == 'sr3d':
-                    scene_graphs[scene_id][ann_id] = Scene_graph_parse(' '.join(data['token']))
+                    scene_graphs[scene_id][ann_id] = Scene_graph_parse(' '.join(data['token']), scanrefer=False)
             
             print('Saving '+ self.prefix +' text decoupling (scene graphs)...')
             json.dump(scene_graphs, open(scene_graphs_path, 'w'))
@@ -718,7 +716,7 @@ def get_positive_map(tokenized, tokens_positive):
 #########################
 # BRIEF Text decoupling #
 #########################
-def Scene_graph_parse(caption):
+def Scene_graph_parse(caption, scanrefer=True):
     caption = ' '.join(caption.replace(',', ' , ').split())
 
     # some error or typo in ScanRefer.
@@ -741,44 +739,45 @@ def Scene_graph_parse(caption):
     # nr3d = True
     # some error or typo in NR3D.
     # if nr3d:
-    caption = ' '.join(caption.replace('.', ' .').split())
-    caption = ' '.join(caption.replace(';', ' ; ').split())
-    caption = ' '.join(caption.replace('-', ' ').split())
-    caption = ' '.join(caption.replace('"', ' ').split())
-    caption = ' '.join(caption.replace('?', ' ').split())
-    caption = ' '.join(caption.replace("*", " ").split())
-    caption = ' '.join(caption.replace(':', ' ').split())
-    caption = ' '.join(caption.replace('$', ' ').split())
-    caption = ' '.join(caption.replace("#", " ").split())
-    caption = ' '.join(caption.replace("/", " / ").split())
-    caption = ' '.join(caption.replace("you're", "you are").split())
-    caption = ' '.join(caption.replace("isn't", "is not").split())
-    caption = ' '.join(caption.replace("thats", "that is").split())
-    caption = ' '.join(caption.replace("theres", "there is").split())
-    caption = ' '.join(caption.replace("doesn't", "does not").split())
-    caption = ' '.join(caption.replace("doesnt", "does not").split())
-    caption = ' '.join(caption.replace("itis", "it is").split())
-    caption = ' '.join(caption.replace("left-hand", "left - hand").split())
-    caption = ' '.join(caption.replace("[", " [ ").split())
-    caption = ' '.join(caption.replace("]", " ] ").split())
-    caption = ' '.join(caption.replace("(", " ( ").split())
-    caption = ' '.join(caption.replace(")", " ) ").split())
-    caption = ' '.join(caption.replace("wheel-chair", "wheel - chair").split())
-    caption = ' '.join(caption.replace(";s", "is").split())
-    caption = ' '.join(caption.replace("tha=e", "the").split())
-    caption = ' '.join(caption.replace("it’s", "it is").split())
-    caption = ' '.join(caption.replace("’s", " is").split())
-    caption = ' '.join(caption.replace("isnt", "is not").split())
-    caption = ' '.join(caption.replace("Don't", "Do not").split())
-    caption = ' '.join(caption.replace("arent", "are not").split())
-    caption = ' '.join(caption.replace("cant", "can not").split())
-    caption = ' '.join(caption.replace("you’re", "you are").split())
-    caption = ' '.join(caption.replace('!', ' !').split())
-    caption = ' '.join(caption.replace('id the', ' , the').split())
-    caption = ' '.join(caption.replace('youre', 'you are').split())
+    if not scanrefer:
+        caption = ' '.join(caption.replace('.', ' .').split())
+        caption = ' '.join(caption.replace(';', ' ; ').split())
+        caption = ' '.join(caption.replace('-', ' ').split())
+        caption = ' '.join(caption.replace('"', ' ').split())
+        caption = ' '.join(caption.replace('?', ' ').split())
+        caption = ' '.join(caption.replace("*", " ").split())
+        caption = ' '.join(caption.replace(':', ' ').split())
+        caption = ' '.join(caption.replace('$', ' ').split())
+        caption = ' '.join(caption.replace("#", " ").split())
+        caption = ' '.join(caption.replace("/", " / ").split())
+        caption = ' '.join(caption.replace("you're", "you are").split())
+        caption = ' '.join(caption.replace("isn't", "is not").split())
+        caption = ' '.join(caption.replace("thats", "that is").split())
+        caption = ' '.join(caption.replace("theres", "there is").split())
+        caption = ' '.join(caption.replace("doesn't", "does not").split())
+        caption = ' '.join(caption.replace("doesnt", "does not").split())
+        caption = ' '.join(caption.replace("itis", "it is").split())
+        caption = ' '.join(caption.replace("left-hand", "left - hand").split())
+        caption = ' '.join(caption.replace("[", " [ ").split())
+        caption = ' '.join(caption.replace("]", " ] ").split())
+        caption = ' '.join(caption.replace("(", " ( ").split())
+        caption = ' '.join(caption.replace(")", " ) ").split())
+        caption = ' '.join(caption.replace("wheel-chair", "wheel - chair").split())
+        caption = ' '.join(caption.replace(";s", "is").split())
+        caption = ' '.join(caption.replace("tha=e", "the").split())
+        caption = ' '.join(caption.replace("it’s", "it is").split())
+        caption = ' '.join(caption.replace("’s", " is").split())
+        caption = ' '.join(caption.replace("isnt", "is not").split())
+        caption = ' '.join(caption.replace("Don't", "Do not").split())
+        caption = ' '.join(caption.replace("arent", "are not").split())
+        caption = ' '.join(caption.replace("cant", "can not").split())
+        caption = ' '.join(caption.replace("you’re", "you are").split())
+        caption = ' '.join(caption.replace('!', ' !').split())
+        caption = ' '.join(caption.replace('id the', ' , the').split())
+        caption = ' '.join(caption.replace('youre', 'you are').split())
 
-    caption = ' '.join(caption.replace("'", ' ').split())
-    caption = ' '.join(caption.replace("``", ' ').split())
+        caption = ' '.join(caption.replace("'", ' ').split())
+        caption = ' '.join(caption.replace("``", ' ').split())
 
     if caption[0] == "'":
         caption = caption[1:]
