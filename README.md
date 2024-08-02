@@ -115,7 +115,7 @@ Put the downloaded `Multi3DRefer` folder as follows.
 ```
 MDIN
 ├── data
-│   ├── Multi3dRefer
+│   ├── Multi3DRefer
 │   │   ├── multi3drefer_train.json
 │   │   ├── multi3drefer_val.json
 ```
