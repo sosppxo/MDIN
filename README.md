@@ -132,10 +132,10 @@ mv ${Download_PATH}/sp_unet_backbone.pth backbones/
 Download pretrain models and move it to checkpoints.
 |Benchmark | Task  | mIoU | Acc@0.25 | Acc@0.5 | Model |
 |:---:|:---:|:---:|:---:|:---:|:---:|
-| Multi3DRes | GRES | 47.5 | 66.9 | 44.7 | .. |
-| ScanRefer   | RES | 48.3 | 58.0 | 53.1 | .. |
-| Nr3D        | RES | 38.6 | 48.4 | 42.2 | .. |
-| Sr3D        | RES | 46.4 | 56.6 | 51.3 | .. |
+| Multi3DRes | 3D-GRES | 47.5 | 66.9 | 44.7 | .. |
+| ScanRefer   | 3D-RES | 48.3 | 58.0 | 53.1 | .. |
+| Nr3D        | 3D-RES | 38.6 | 48.4 | 42.2 | .. |
+| Sr3D        | 3D-RES | 46.4 | 56.6 | 51.3 | .. |
 
 
 ## Training
