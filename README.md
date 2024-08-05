@@ -50,8 +50,6 @@ The following installation suppose `python=3.8` `pytorch=1.12.1` and `cuda=11.3`
   ```
 
   Install segmentator from this [repo](https://github.com/Karbo123/segmentator) (We wrap the segmentator in ScanNet).
-  
-  Install SceneGraphParser from the [repo](https://github.com/vacancy/SceneGraphParser).
 
 - Setup, Install mdin and pointgroup_ops.
 
@@ -177,4 +175,4 @@ If you find this work useful in your research, please cite:
 
 ## Ancknowledgement
 
-Sincerely thanks for [ReLA](https://github.com/henghuiding/ReLA), [M3DRef-CLIP](https://github.com/3dlg-hcvc/M3DRef-CLIP), [EDA](https://github.com/yanmin-wu/EDA), [SoftGroup](https://github.com/thangvubk/SoftGroup), [SSTNet](https://github.com/Gorilla-Lab-SCUT/SSTNet) and [SPFormer](https://github.com/sunjiahao1999/SPFormer) repos. This repo is build upon them.
+Sincerely thanks for [ReLA](https://github.com/henghuiding/ReLA), [M3DRef-CLIP](https://github.com/3dlg-hcvc/M3DRef-CLIP), [EDA](https://github.com/yanmin-wu/EDA), [SceneGraphParser](https://github.com/vacancy/SceneGraphParser), [SoftGroup](https://github.com/thangvubk/SoftGroup), [SSTNet](https://github.com/Gorilla-Lab-SCUT/SSTNet) and [SPFormer](https://github.com/sunjiahao1999/SPFormer) repos. This repo is build upon them.
