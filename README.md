@@ -56,7 +56,7 @@ The following installation suppose `python=3.8` `pytorch=1.12.1` and `cuda=11.3`
   ```
   sudo apt-get install libsparsehash-dev
   python setup.py develop
-  cd mdin/lib/
+  cd gres_model/lib/
   python setup.py develop
   ```
 
