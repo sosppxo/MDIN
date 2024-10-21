@@ -45,7 +45,7 @@ The following installation suppose `python=3.8` `pytorch=1.12.1` and `cuda=11.3`
 
   ```
   pip install spconv-cu113
-  conda install pytorch-scatter -c pyg
+  conda install pytorch-scatter -c pyg # or pip install https://data.pyg.org/whl/torch-1.12.0%2Bcu113/torch_scatter-2.0.9-cp38-cp38-linux_x86_64.whl
   pip install -r requirements.txt
   ```
 
