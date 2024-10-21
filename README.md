@@ -59,6 +59,12 @@ The following installation suppose `python=3.8` `pytorch=1.12.1` and `cuda=11.3`
   cd gres_model/lib/
   python setup.py develop
   ```
+-  Compile pointnet++
+  ```
+  cd pointnet2
+  python setup.py install --user
+  cd ..
+  ```
 
 ## Data Preparation
 
