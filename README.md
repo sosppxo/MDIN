@@ -112,6 +112,7 @@ MDIN
 │   │   ├── ScanRefer_filtered_train_new.json
 │   │   ├── ScanRefer_filtered_val_new.json
 ```
+
 ### Multi3DRefer dataset
 Downloading the [Multi3DRefer](https://aspis.cmpt.sfu.ca/projects/multi3drefer/data/multi3drefer_train_val.zip) annotations. 
 
@@ -123,6 +124,7 @@ MDIN
 │   │   ├── multi3drefer_train.json
 │   │   ├── multi3drefer_val.json
 ```
+There are some typos in the original text, Please correct them according to [Issue #6](https://github.com/sosppxo/MDIN/issues/6) to prevent syntax parsing errors.
 
 ## Pretrained Backbone
 
