@@ -124,7 +124,7 @@ MDIN
 │   │   ├── multi3drefer_train.json
 │   │   ├── multi3drefer_val.json
 ```
-There are some typos in the original text, Please correct them according to [Issue #6](https://github.com/sosppxo/MDIN/issues/6) to prevent syntax parsing errors.
+There are some typos in the original text, please correct them according to [Issue #6](https://github.com/sosppxo/MDIN/issues/6) to prevent syntax parsing errors.
 
 ## Pretrained Backbone
 
