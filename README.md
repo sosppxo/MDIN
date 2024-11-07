@@ -126,6 +126,8 @@ MDIN
 ```
 There are some typos in the original text, please correct them according to [Issue #6](https://github.com/sosppxo/MDIN/issues/6) to prevent syntax parsing errors.
 
+Or download the modified [`Multi3DRefer(New)`](https://stuxmueducn-my.sharepoint.com/:f:/g/personal/liuyihang_stu_xmu_edu_cn/EoFB1_xNmKZCsAf6vp0-6pABo0-boohl-F6KOLAnWtQuvQ?e=Pwmk8v)
+
 ## Pretrained Backbone
 
 Download [SPFormer](https://stuxmueducn-my.sharepoint.com/:f:/g/personal/22920182204313_stu_xmu_edu_cn/Em7yJHaCHAxFpM15uVwk9cgByDp-67lWQg59vkU-zokHYA?e=IuZV0D) pretrained model (We only use the Sparse 3D U-Net backbone for training).
