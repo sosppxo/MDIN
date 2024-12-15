@@ -128,6 +128,23 @@ There are some typos in the original text, please correct them according to [Iss
 
 Or download the modified [`Multi3DRefer(New)`](https://stuxmueducn-my.sharepoint.com/:f:/g/personal/liuyihang_stu_xmu_edu_cn/EoFB1_xNmKZCsAf6vp0-6pABo0-boohl-F6KOLAnWtQuvQ?e=Pwmk8v)
 
+
+### ReferIt3D dataset
+Downloading the [ReferIt3D](https://referit3d.github.io/#dataset) annotations and convert the `.csv` file into a `.json` format consistent with the Multi3DRefer format.
+
+Put the downloaded `ReferIt3D` folder as follows.
+```
+MDIN
+├── data
+│   ├── ReferIt3D
+│   │   ├── sr3d_train.json
+│   │   ├── sr3d_val.json
+│   │   ├── nr3d_train.json
+│   │   ├── nr3d_val.json
+```
+
+Or download the modified [`ReferIt3D(.json)`](https://stuxmueducn-my.sharepoint.com/:f:/g/personal/liuyihang_stu_xmu_edu_cn/EuRud2n1HFZFqbJPH0WvSAYBU6CkHOrEpNyCXC1fY81XAQ?e=moFmI3)
+
 ## Pretrained Backbone
 
 Download [SPFormer](https://stuxmueducn-my.sharepoint.com/:f:/g/personal/22920182204313_stu_xmu_edu_cn/Em7yJHaCHAxFpM15uVwk9cgByDp-67lWQg59vkU-zokHYA?e=IuZV0D) pretrained model (We only use the Sparse 3D U-Net backbone for training).
